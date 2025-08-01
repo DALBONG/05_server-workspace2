@@ -1,6 +1,7 @@
 <%@page import="com.kh.common.JDBCTemplate"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,12 +33,13 @@
 		    게시판 작성(C) - 첨부파일 업로드
 	-->
 
-	<h1>해치웠나?</h1>
-	
-	<%
-	JDBCTemplate.getConnection();
-	%>
-	
+
+	<%@ include file="views/common/menubar.jsp"%>
+
+
+
+
+
 	
 	
 	
