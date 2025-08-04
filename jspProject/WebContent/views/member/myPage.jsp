@@ -108,7 +108,7 @@
             <div align="center">
                 <button type="submit" class="btn btn-sm btn-primary">정보변경</button> 
                 <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#updatePwdModal">비빌번호 변경</button>
-                <button type="button" class="btn btn-sm btn-danger">회원탈퇴</button>
+                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteModal">회원탈퇴</button>
             </div>
 
             <br>
@@ -117,6 +117,53 @@
 
 
     </div>
+
+
+    	<!-- 회원탈퇴용 modal -->
+		<div class="modal" id="deleteModal">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		
+		      <!-- Modal Header -->
+		      <div class="modal-header">
+		        <h4 class="modal-title">회원 탈퇴</h4>
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		      </div>
+		
+		      <!-- Modal body -->
+		      <div class="modal-body" align="center">
+		       	<form action="<%= contextPath %>/delete.me" method="post">
+		       	<input type="hidden" name="userId" value="<%= userId %>">
+		       	
+			       	<b>탈퇴 후 복구 불가능, <br> 정말 탈퇴 하시겠습니까? </b> <br> <br>
+			       	
+			       	비밀번호 : <input type="password" name="userPwd" required>
+			       	<button type="submit" class="btn btn-sm btn-danger">탈퇴하기</button>
+			       	
+			       	<!-- 
+			       		탈퇴 요청시 실행할 쿼리문
+			       		UPDATE MEMBER 
+			       		   SET STATUS = 'N'
+			       		     , MODIFI_DATE = SYSDATE
+			       		 WHERE USER_ID = ? 
+			       		   AND USER_PWD = ?
+			       		   
+			        (정보변경, 비번변경처럼 갱신된 회원 다시 조회할 필요 없음) 
+			        
+			        성공했을 경우  -> 메인페이지 alert("탈퇴 성공, 그동안 ㄳ"), 
+			        			  로그아웃 되어있어야 함 (세션에 loginUser 키값 해당하는 것 지우기)
+			        실패했을 경우 -> 에러페이지 에러
+			       	
+			       	 -->
+		       	
+		       	</form>
+		      </div>
+		    </div>
+		  </div>
+		</div>    
+    
+    
+    
     
     
     
@@ -156,9 +203,7 @@
 		       		
 		       		<button type="submit" class="btn btn-sm btn-secondary" onclick="return validatePwd();">비밀번호 변경</button>
 		       
-		       
 		       	</form>
-		       	
 		       	
 		       	<script>
 		       		function validatePwd() {
@@ -166,15 +211,8 @@
 		       				alert("변경할 비밀번호 불일치");
 		       				return false;
 		       			}
-						
 					}
-		       	
-		       	
-		       	
 		       	</script>
-		       	
-		       	
-		       	
 		      </div>
 		    </div>
 		  </div>

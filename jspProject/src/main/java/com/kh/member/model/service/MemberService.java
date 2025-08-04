@@ -45,8 +45,8 @@ public class MemberService {
 		Member updateMem = null;
 		if(result > 0) {
 			commit(conn);
-			// 갱신된 회원 객체 다시 조회해오기.
 			
+			// 갱신된 회원 객체 다시 조회해오기.
 			updateMem = new MemberDao().selectMember(conn, m.getUserId());
 		
 		}else {
@@ -81,6 +81,23 @@ public class MemberService {
 		close(conn);
 		return updateMem;
 		
+		
+	}
+
+	public int MemberDelete(String userId, String userPwd) {
+		Connection conn = getConnection(); 
+		
+		int result = new MemberDao().MemberDelete(conn, userId, userPwd);
+		
+		
+		if(result > 0) {
+			commit(conn);
+		}else {
+			rollback(conn);
+		}
+		close(conn);
+		
+		return result;
 		
 	}
 	

@@ -48,9 +48,14 @@ UPDATE MEMBER
      , ADDRESS = ?
      , INTEREST = ?
      , MODIFY_DATE = SYSDATE
+ WHERE USER_ID = ?;
+
+ 
+UPDATE MEMBER 
+   SET USER_PWD = ?
+     , MODIFY_DATE = SYSDATE
  WHERE USER_ID = ?
- 
-SELECT *
-from Member;
- 
- 
+   AND USER_PWD = ?;
+   
+SELECT *   
+FROM MEMBER;
