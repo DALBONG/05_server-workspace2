@@ -59,3 +59,34 @@ UPDATE MEMBER
    
 SELECT *   
 FROM MEMBER;
+
+SELECT *
+FROM NOTICE;
+
+SELECT 
+       NOTICE_NO
+     , NOTICE_TITLE
+     , USER_ID
+     , COUNT
+     , CREATE_DATE
+  FROM NOTICE N
+  JOIN MEMBER M ON N.NOTICE_WRITER = M.USER_NO
+ WHERE N.STATUS = 'Y'
+ ORDER 
+    BY NOTICE_NO DESC;
+    
+INSERT 
+  INTO NOTICE
+     (
+       NOTICE_NO
+     , NOTICE_TITLE
+     , NOTICE_CONTENT
+     , NOTICE_WRITER
+     )
+VALUES
+    (
+       SEQ_NNO.NEXTVAL
+     , ?
+     , ?
+     , 로그인한 사용자의 유저 넘버 
+    )  
