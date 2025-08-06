@@ -25,6 +25,11 @@
             border: 2px solid white;
             text-align: center;
         }
+        
+        .list-area>tbody>tr:hover{
+        	background-color: gray;
+        	cursor:pointer;
+        }
 
 
     </style>
@@ -87,6 +92,26 @@
         </table>
 
     </div>
+    
+    
+    <script>
+    	$(function(){
+    		$(".list-area>tbody>tr").click(function(){
+    			const num = $(this).children().eq(0).text();
+    			
+    			// 요청할 url?key=value&key=value&key=value&..... -> 쿼리 스트링 방식(get방식)
+    			
+    			// /jsp/detail.no?num=클릭한 글번호
+    					
+    			location.href='<%= contextPath %>/detail.no?num='+num;
+    			
+    		})
+    		
+    		
+    	})
+    
+    
+    </script>
     
 
 </body>

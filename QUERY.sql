@@ -56,12 +56,7 @@ UPDATE MEMBER
      , MODIFY_DATE = SYSDATE
  WHERE USER_ID = ?
    AND USER_PWD = ?;
-   
-SELECT *   
-FROM MEMBER;
 
-SELECT *
-FROM NOTICE;
 
 SELECT 
        NOTICE_NO
@@ -89,4 +84,53 @@ VALUES
      , ?
      , ?
      , 로그인한 사용자의 유저 넘버 
-    )  
+    ) ;
+    
+    
+    
+UPDATE
+       NOTICE
+   SET COUNT = COUNT + 1
+ WHERE NOTICE_NO = 조회하고자 하는 글번호
+   AND STATUS = 'Y';
+   
+
+SELECT 
+       NOTICE_NO
+     , NOTICE_TITLE
+     , NOTICE_CONTENT
+     , USER_ID
+     , CREATE_DATE
+  FROM NOTICE
+  JOIN MEMBER ON NOTICE_WRITER = USER_NO
+ WHERE NOTICE_NO = ?
+ 
+ 
+UPDATE
+       NOTICE
+   SET NOTICE_TITLE = 입력 제목
+     , NOTICE_CONTENT = 입력 내용
+ WHERE NOTICE_NO = 수정하려는 글 번호;
+ 
+ SELECT *   
+FROM MEMBER;
+
+SELECT *
+FROM NOTICE;
+
+
+UPDATE
+       NOTICE
+  JOIN MEMBER ON NOTICE_WRITER = USER_NO
+   SET NOTICE_TITLE
+     , USER_NO
+     , COUNT
+     , CREATE_DATE
+ WHERE NOTICE_NO = 삭제하려는 글 번호;
+ 
+ 
+SELECT 
+       COUNT(*) AS "COUNT"
+  FROM BOARD
+ WHERE BOARD_TYPE = 1
+   AND STATUS = 'Y';
