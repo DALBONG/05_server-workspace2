@@ -51,7 +51,7 @@
 		<%if(loginUser != null) {%>
 	        <!--로그인한 회원만 보여지는 div-->
 	        <div align="right" style="width: 865px;">
-	            <a href="<%= contextPath %>/enrollform.bo" class="btn btn-sm">글작성</a>
+	            <a href="<%= contextPath %>/enrollform.bo" class="btn btn-sm btn-secondary">글작성</a>
 	            <br><br>
 	        </div>
         <%} %>
