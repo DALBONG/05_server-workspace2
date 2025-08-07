@@ -83,7 +83,7 @@ VALUES
        SEQ_NNO.NEXTVAL
      , ?
      , ?
-     , 로그인한 사용자의 유저 넘버 
+     , ? 
     ) ;
     
     
@@ -91,7 +91,7 @@ VALUES
 UPDATE
        NOTICE
    SET COUNT = COUNT + 1
- WHERE NOTICE_NO = 조회하고자 하는 글번호
+ WHERE NOTICE_NO = ?
    AND STATUS = 'Y';
    
 
@@ -103,14 +103,14 @@ SELECT
      , CREATE_DATE
   FROM NOTICE
   JOIN MEMBER ON NOTICE_WRITER = USER_NO
- WHERE NOTICE_NO = ?
+ WHERE NOTICE_NO = ?;
  
  
 UPDATE
        NOTICE
-   SET NOTICE_TITLE = 입력 제목
-     , NOTICE_CONTENT = 입력 내용
- WHERE NOTICE_NO = 수정하려는 글 번호;
+   SET NOTICE_TITLE = ?
+     , NOTICE_CONTENT = ?
+ WHERE NOTICE_NO = ?;
  
  SELECT *   
 FROM MEMBER;
@@ -163,3 +163,26 @@ SELECT
        CATEGORY_NO
      , CATEGORY_NAME
   FROM CATEGORY;
+  
+  
+  
+  
+INSERT 
+  INTO BOARD
+    (
+       BOARD_NO
+     , BOARD_TYPE
+     , CATEGORY_NO
+     , BOARD_TITLE
+     , BOARD_CONTENT
+     , BOARD_WRITER
+     )
+     VALUES
+     (
+       SEQ_BNO.NEXTVAL
+     , 1
+     , ?
+     , ?
+     , ?
+     , ?
+     )
