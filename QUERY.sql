@@ -185,4 +185,98 @@ INSERT
      , ?
      , ?
      , ?
+     );
+     
+select *
+FROM BOARD;
+
+-- ATTACHMENT에 INSERT
+
+INSERT
+  INTO ATTACHMENT
+  (
+       FILE_NO
+     , REF_BNO
+     , ORIGIN_NAME
+     , CHANGE_NAME
+     , FILE_PATH
      )
+     VALUES
+     (
+       SEQ_FNO.NEXTVAL
+     , SEQ_BNO.CURRVAL
+     , ?
+     , ?
+     , ?
+     );
+
+
+-- 상세 조회 요청
+-- 조회수 증가용
+
+UPDATE BOARD
+   SET COUNT = COUNT +1
+ WHERE BOARD_NO = ?
+   AND STATUS = 'Y' ;
+   
+-- 게시글 정보 조회
+SELECT 
+        BOARD_NO
+      , CATEGORY_NAME
+      , BOARD_TITLE
+      , BOARD_CONTENT
+      , USER_ID
+      , TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') "CREATE_DATE"
+   FROM BOARD
+   JOIN CATEGORY USING (CATEGORY_NO)
+   JOIN MEMBER ON (BOARD_WRITER = USER_NO)
+  WHERE BOARD_NO = ? ;
+  
+--첨부파일 조회
+SELECT 
+        FILE_NO
+      , ORIGIN_NAME
+      , CHANGE_NAME
+      , FILE_PATH
+   FROM ATTACHMENT
+  WHERE REF_BNO = ? ;
+
+
+-- 첨부파일이 있든 없든 공통적으로 수행할 Sql문
+UPDATE BOARD
+   SET 
+       CATEGORY_NO = ?
+     , BOARD_TITLE = ?
+     , BOARD_CONTENT = ?
+ WHERE BOARD_NO = ? ;
+ 
+-- 첨부파일이 있는 경우 CASE 1.(기존 첨부파일이 있었음에도
+    -- 새로운 첨부파일이 넘어왔을 경우)
+    --> UPDATE ATTACHMENT
+UPDATE ATTACHMENT
+   SET ORIGIN_NAME = ? -- 새 파일의 원본명
+     , CHANGE_NAME = ?  -- 새 파일의 수정명
+     , FILE_PATH = ? -- 새 파일의 기존경로
+ WHERE FILE_NO = ? -- 기존 파일 번호
+
+
+-- 첨부파일이 있는 경우 CASE 2.(기존 첨부파일이 없었는데,
+    -- 새로운 첨부파일이 넘어왔을 경우) 
+    -- INSERT ATTACHMENT 
+INSERT 
+  INTO ATTACHMENT
+    ( 
+       FILE_NO
+     , REF_BNO
+     , ORIGIN_NAME
+     , CHANGE_NAME
+     , FILE_PATH 
+     )
+  VALUES
+    (
+       SEQ_FNO.NEXTVAL
+     , REF_BNO -- 현재 수정하고 있는 게시글 번호
+     , ?  -- 새로운 파일의 원본명
+     , ?  -- 새로운 파일의 수정명
+     , ?  -- 새로운 파일의 저장경로
+     )  ;

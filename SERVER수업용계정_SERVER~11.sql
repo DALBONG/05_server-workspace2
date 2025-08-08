@@ -19,4 +19,4 @@ INSERT
      );
      
 SELECT *
-  from ATTACHMENT;
+  from board;
