@@ -31,7 +31,39 @@ public class Board {
 	
 	
 	
+	private String titleImg; // 대표이미지 경로를 보관하기 위한 필드 
 	
+	
+
+	public String getTitleImg() {
+		return titleImg;
+	}
+
+	public void setTitleImg(String titleImg) {
+		this.titleImg = titleImg;
+	}
+
+	
+	
+	
+	
+	
+	public Board(int boardNo, String boardTitle, String boardContent, String boardWriter, String createDate) {
+		super();
+		this.boardNo = boardNo;
+		this.boardTitle = boardTitle;
+		this.boardContent = boardContent;
+		this.boardWriter = boardWriter;
+		this.createDate = createDate;
+	}
+
+	public Board(int boardNo, String boardTitle, int count, String titleImg) {
+		super();
+		this.boardNo = boardNo;
+		this.boardTitle = boardTitle;
+		this.count = count;
+		this.titleImg = titleImg;
+	}
 
 	public Board(int boardNo, String category, String boardTitle, String boardContent, String boardWriter,
 			String createDate) {

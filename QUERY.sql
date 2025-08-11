@@ -280,3 +280,82 @@ INSERT
      , ?  -- 새로운 파일의 수정명
      , ?  -- 새로운 파일의 저장경로
      )  ;
+     
+     
+--========= 썸네일==========-
+-- 사진 게시글 작성 요청시 실행할 Sql문
+INSERT 
+  INTO BOARD
+  (
+       BOARD_NO
+     , BOARD_TYPE
+     , BOARD_TITLE
+     , BOARD_CONTENT
+     , BOARD_WRITER
+  )
+  VALUES
+  (
+       SEQ_BNO.NEXTVAL
+     , 2
+     , ? -- 사용자가 입력한 내용
+     , ? -- 사용자가 입력한 내용
+     , ? -- 로그인한 회원번호
+  );
+  
+-- INSEST ATTACHMENT (첨부파일 갯수만큼 반복적 수행)
+INSERT
+  INTO ATTACHMENT
+  (
+       FILE_NO
+     , REF_BNO
+     , ORIGIN_NAME
+     , CHANGE_NAME
+     , FILE_PATH
+     , FILE_LEVEL
+  )
+  VALUES
+  (
+       SEQ_FNO.NEXTVAL
+     , SEQ_BNO.CURRVAL
+     , ? -- 첨부파일 원본명
+     , ? -- 첨부파일 수정명
+     , ? -- 저장경로
+     , ? -- 대표이미지 1, 상세이미지 2  
+  )
+
+SELECT *
+  FROM BOARD
+ WHERE BOARD_TYPE = 2;
+
+SELECT *
+ FROM ATTACHMENT;
+ 
+ 
+SELECT 
+       BOARD_NO
+     , BOARD_TITLE
+     , COUNT
+     , FILE_PATH || CHANGE_NAME AS "TITLEIMAGE"
+  FROM BOARD B
+  JOIN ATTACHMENT ON (BOARD_NO = REF_BNO)
+ WHERE BOARD_TYPE = 2
+   AND B.STATUS = 'Y'
+   AND FILE_LEVEL = 1
+ ORDER
+    BY BOARD_NO DESC;
+
+select *
+ from board;
+ 
+SELECT 
+       BOARD_NO
+     , BOARD_TITLE
+     , USER_ID
+     , TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') AS "CREATE_DATE"
+     , BOARD_CONTENT
+  FROM BOARD B
+  JOIN MEMBER M ON (B.BOARD_WRITER = M.USER_NO)
+ WHERE B.BOARD_NO = ? ; 
+  
+  SELECT *
+    FROM ATTACHMENT;

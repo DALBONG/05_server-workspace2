@@ -14,6 +14,8 @@ import com.kh.board.model.vo.Board;
 import com.kh.board.model.vo.Category;
 import com.kh.common.model.vo.PageInfo;
 
+import oracle.net.aso.b;
+
 import static com.kh.common.JDBCTemplate.*;
 
 public class BoardDao {
@@ -114,7 +116,6 @@ public class BoardDao {
 
 	public ArrayList<Category> selectCategoryList(Connection conn) {
 		// seelect-> rset 여러 행 -> arrayList
-		
 		
 		ArrayList<Category> list = new ArrayList<Category>();
 		PreparedStatement pstmt = null;
@@ -375,6 +376,130 @@ public class BoardDao {
 		}
 
 		return result;
+	}
+
+	public int insertThumnailBoard(Connection conn, Board b) {
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertThumnailBoard");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, b.getBoardTitle());
+			pstmt.setString(2, b.getBoardContent());
+			pstmt.setInt(3, Integer.parseInt(b.getBoardWriter()));
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+
+		return result;
+	}
+
+	public int insertAttachmentList(Connection conn, ArrayList<Attachment> list) {
+	
+		int result = 0;	
+				
+		PreparedStatement pstmt = null;
+		String sql = prop.getProperty("insertAttachmentList");
+		
+		try {
+			
+			for(Attachment at: list) {
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, at.getOriginName());
+				pstmt.setString(2, at.getChangeName());
+				pstmt.setString(3, at.getFilePath());
+				pstmt.setInt(4, at.getFileLevel());
+				
+				result = pstmt.executeUpdate();
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		
+		return result;
+	}
+
+	public ArrayList<Board> selectThumbnailList(Connection conn) {
+		
+		Board b = new Board(); 
+		ArrayList<Board> list = new ArrayList<Board>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		
+		String sql = prop.getProperty("selectThumbnailList");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			
+			rset = pstmt.executeQuery();
+			 // 대표이미지 경로를 보관하기 위한 필드 생성
+			
+			// 반복문 돌려가며 뽑아 list에 넣기 -> 여러행
+			
+			while(rset.next()) {
+				list.add(new Board(rset.getInt("board_no")
+						         , rset.getString("board_title")
+						         , rset.getInt("count")
+						         , rset.getString("titleImage")));
+
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+
+		
+		return list;
+	}
+
+	public Board detailThumnail(Connection conn) {
+			// selelct, 한 행, rset, board객체
+		Board b = null;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String sql = prop.getProperty("detailThumnail");
+		
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, b.getBoardNo());
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = new Board(rset.getInt("board_no")
+						    , rset.getString("board_title")
+						    , rset.getString("user_id")
+						    , rset.getString("create_date")
+						    , rset.getString("board_content"));
+			}
+
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rset);
+			close(pstmt);
+		}
+		return b;
+		
 	}
 	
 	

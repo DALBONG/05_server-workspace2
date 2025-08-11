@@ -50,6 +50,8 @@ public class BoardUpdateController extends HttpServlet {
 			//2. 전달된 파일명 수정 작업 후 서버에 업로드
 				// 자료형 httpserveletRequest의 객체인 request를  -> Multirequest로 변환
 			MultipartRequest multiRequest = new MultipartRequest(request, savePath, maxSize, "utf-8", new MyFileRenamePolicy());
+				// MultipartRequest의 생성자의 파라미터
+					// : (request, savaPath(저장될 서버의 경로), 파일의 최대 크기, 인코딩 방식, 중복 파일명 처리 정책)
 			
 			//3. 본격적으로 sql문 실행할 때 필요한 값 뽑아 vo에 기록
 				// 공통적 수행 : UPDATE BOARD
