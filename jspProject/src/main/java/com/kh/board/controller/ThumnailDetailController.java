@@ -1,6 +1,8 @@
 package com.kh.board.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,20 +33,21 @@ public class ThumnailDetailController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		Board b = new BoardService().detailThumnail();
+		// Board b = new BoardService().detailThumnail();
 	
-		int boardNo = Integer.parseInt(request.getParameter("tno"));
+		int boardNo = Integer.parseInt(request.getParameter("bno"));
 		
 		BoardService bservice = new BoardService();
 		
 		int result = bservice.increaseCount(boardNo);
 		
 		if(result > 0) {
-			b = bservice.selectBoard(boardNo);
-			Attachment at = bservice.selectAttachment(boardNo);
+			Board b = bservice.selectBoard(boardNo);
+			// Attachment at = bservice.selectAttachment(boardNo);
+			ArrayList<Attachment> list = bservice.selectAttachmentList(boardNo);
 			
 			request.setAttribute("b", b);
-			request.setAttribute("at", at);
+			request.setAttribute("list", list);
 			request.getRequestDispatcher("views/board/thumbnailDetailView.jsp").forward(request, response);
 		} else {
 			// 실패시

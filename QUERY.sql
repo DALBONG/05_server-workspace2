@@ -358,4 +358,27 @@ SELECT
  WHERE B.BOARD_NO = ? ; 
   
   SELECT *
-    FROM ATTACHMENT;
+    FROM ATTACHMENT
+  WHERE REF_BNO = 111;
+    
+    
+    	SELECT 
+	        BOARD_NO
+	      , CATEGORY_NAME
+	      , BOARD_TITLE
+	      , BOARD_CONTENT
+	      , USER_ID
+	      , TO_CHAR(CREATE_DATE, 'YYYY/MM/DD') "CREATE_DATE"
+	   FROM BOARD
+	   LEFT JOIN CATEGORY USING (CATEGORY_NO)
+	   JOIN MEMBER ON (BOARD_WRITER = USER_NO)
+	  WHERE BOARD_NO = 111; 
+      
+--=============================================
+SELECT 
+       COUNT(*) "COUNT"
+  FROM MEMBER
+ WHERE USER_ID = ? ;
+ 
+select *
+from member;

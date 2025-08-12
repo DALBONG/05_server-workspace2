@@ -1,10 +1,12 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.kh.board.model.vo.Attachment"%>
 <%@page import="com.kh.board.model.vo.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
  <% Board b = (Board)request.getAttribute("b"); 
- 	Attachment at = (Attachment)request.getAttribute("at");
+ 	//Attachment at = (Attachment)request.getAttribute("at");
+ 	ArrayList<Attachment> list = (ArrayList<Attachment>)request.getAttribute("list");
  %>
 <!DOCTYPE html>
 <html>
@@ -25,7 +27,6 @@
 			border: 1px solid white;
 			
 		}
-	
 	
 	</style>
 	
@@ -65,8 +66,8 @@
                 <td>대표사진</td>
                 <td colspan="3">
                     <div>
-                        <img src="<%= contextPath %>/resources/thumnail_upfiles"   width="500px" height="300px">
-               			<!-- /jsp/폴더경로/파일명 -->
+                        <img src="<%= contextPath %>/<%= list.get(0).getFilePath() + list.get(0).getChangeName() %>" width="500px" height="300px">
+               			<!-- /jsp/폴더경로/파일명 %>  resources/thumnail_upfiles"--> 
                     </div>
                 </td>
             </tr>
@@ -75,14 +76,22 @@
                 <td>상세사진</td>
                 <td colspan="3">
                     <div>
-                        <img src="/jsp/폴더경로/파일명" width="200px" height="150px">
-                        <img src="/jsp/폴더경로/파일명" width="200px" height="150px">
-                        <img src="/jsp/폴더경로/파일명" width="200px" height="150px">
+                    	<% for(int i=1; i<list.size(); i++) {%>
+	                        <img src="<%= contextPath %>/<%= list.get(i).getFilePath() + list.get(i).getChangeName() %>" width="200px" height="150px">
+                    	<% }%>
                     </div>
                 </td>
             </tr>
 
         </table>
+        
+        <br>
+        
+        <div align="center">
+        	<a href="<%= contextPath%>/list.th" class="btn btn-sm btn-secondary">목록가기</a>
+        </div>
+        
+        
     </div>
 
 </body>

@@ -24,7 +24,9 @@
             margin: auto;
 
         }
-        .list-area>.thumbnail:hover{
+        .thumbnail:hover{
+        	cursor:pointer;
+        	opacity:0.8;
         	background-color: darkgray;
         }
 
@@ -63,7 +65,9 @@
 	
 			<% for(Board b : list) {%>
 	            <!-- 썸넬 한 개-->
-	            <div class="thumbnail" align="center" onclick="">
+	            <div class="thumbnail" align="center">
+	            	<!-- input 추가 -->
+	            	<input type="hidden" value="<%= b.getBoardNo()%>">
 	                <img src="<%= contextPath %>/<%= b.getTitleImg() %>" width="200px" height="150px">
 	                <p>
 	                    No.<%= b.getBoardNo() + b.getBoardTitle() %> <br>
@@ -77,8 +81,8 @@
 	
 		<script>
 			$(function(){
-				$(".list-area>thumbnail").click(function(){
-					location.href='<%= contextPath %>/detail.tb?tno=' + $(this).children().eq(0).text();
+				$(".thumbnail").click(function(){
+					location.href="<%= contextPath %>/detail.tb?bno=" + $(this).children("input").val();
 				})
 				
 				
