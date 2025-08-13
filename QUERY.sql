@@ -382,3 +382,38 @@ SELECT
  
 select *
 from member;
+-- =================================
+
+INSERT 
+  INTO REPLY
+  (
+       REPLY_NO
+     , REPLY_CONTENT
+     , REF_BNO
+     , REPLY_WRITER
+  )
+  VALUES
+  (
+       SEQ_RNO.NEXTVAL
+     , ?
+     , ?
+     , ?
+  ) ;
+
+
+--======== ´ñ±Û Á¶È¸ 
+
+SELECT 
+       REPLY_NO
+     , REPLY_CONTENT
+     , USER_ID
+     , TO_CHAR(CREATE_DATE, 'YY/MM/DD HH/MI') "CREATE_DATE"
+  FROM REPLY R
+  JOIN MEMBER ON (REPLY_WRITER = USER_NO)
+ WHERE R.STATUS = 'Y' 
+   AND REF_BNO = 101
+ ORDER 
+    BY REPLY_NO DESC ;
+    
+    select * 
+    from member;

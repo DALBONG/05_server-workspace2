@@ -21,7 +21,7 @@
             background-color: black;
             color: wheat;
             width: 1000px;
-            height: 550;
+            height: auto;
             margin: auto;
             margin-top: 50px;
 
@@ -89,6 +89,107 @@
 	            <a href="#" class="btn btn-sm btn-danger">삭제</a>
             <%} %>
         
+        </div>
+
+        <br>
+
+        <div id="reply-area">
+            <table border="1" align="center">
+                <thead>
+                    <tr>
+                        <th>댓글작성</th>
+                        <% if(loginUser != null) {%>
+	                        <td>
+	                            <textarea id="replyContent" rows="3" cols="50" style="resize: none;"></textarea>
+	                        </td>
+	                        
+	                        <td>
+	                            <button onclick="insertReply()">댓글 등록</button>
+	                        </td>
+                        <%}else{ %>
+                        	<td>
+	                            <textarea rows="3" cols="50" style="resize: none;" readonly>로그인 후 이용 가능한 서비스</textarea>
+	                        </td>
+	                        
+	                        <td>
+	                            <button disabled>댓글 등록</button>
+	                        </td>
+                        <%} %>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+           
+
+                </tbody>
+
+            </table>
+            
+            <script>
+            	$(function(){
+            		selectReplyList();
+            		
+            		setInterval(selectReplyList, 10000);
+            		
+            	});
+            	
+            	// ajax로 댓글 작성용 함수
+            	function insertReply() {
+					$.ajax({
+						url:"rinsert.bo",
+						data:{
+							content:$("#replyContent").val(),
+							bno:<%= b.getBoardNo()%>,
+						},
+						type:"post",
+						success:function(result){
+							if(result > 0){//작성 성공, 갱신된 댓글 리스트 조회
+								selectReplyList();
+								$("#replyContent").val("");
+							}else{
+								
+							}
+							
+						},
+						error:function(){
+							console.log("ajax 댓글등록 실패");
+						},
+						
+					});
+				}
+            	
+            	//함수를 만들땐, fucntion 에서 나와서 
+            	//ajax로 해당 게시글에 달린 댓글 목록 조회용 함수
+            	function selectReplyList(){
+            		
+      
+            		$.ajax({
+            			url:"rlist.bo",
+            			data:{bno:<%= b.getBoardNo()%>},
+            			success:function(list){
+            				console.log(list)
+            				
+            				let result = "";
+            				for(let i=0; i<list.length; i++){
+            					result += "<tr>"
+            							+ "<td>" + list[i].replyWriter + "</td>"
+            							+ "<td>" + list[i].replyContent + "</td>"
+            							+ "<td>" + list[i].createDate + "</td>"
+            							+ "</tr>"
+            				}
+								
+            				$("#reply-area tbody").html(result);
+            					
+            			},
+            			error:function(){
+            				console.log("댓글목록 조회 실패");
+            			},
+            		});
+            	}
+            	
+            	
+            </script>
         </div>
 
     </div>
