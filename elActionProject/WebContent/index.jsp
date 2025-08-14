@@ -44,11 +44,13 @@
 	
 	<h3>1) 표준 액션 태그</h3>
 	<a href="views/2_standardAction/01_include.jsp">01_jsp:include</a>
+	<br>
+	<a href="views/2_standardAction/02_forward.jsp">02_jsp:forward</a>
 	
-	
-	
-	
-	
+	<br>
+	<br>
+	<h3>2) 커스텀 액션 태그(jstl)</h3>
+	<a href="views/3_customAction/jstl.jsp">JSTL </a>
 	
 	
 	

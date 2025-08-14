@@ -11,13 +11,13 @@
 <body>
 	
 	<%
-		String year = new SimpleDateFormat("2036").format(new Date()); 
+		String year = new SimpleDateFormat("yyyy").format(new Date()); 
 	%>
 	Copyright © 1998-<%= year %> KH Information Educational Institute All Right Reserved
 	<br>
 
-	
-
+	test : ${ param.test } <br>
+ 
 
 
 </body>
